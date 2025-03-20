@@ -102,7 +102,7 @@ const Controls: React.FC<ControlsProps> = ({
           max="1000"
           value={scrollSpeed}
           onChange={(e) =>
-            onScrollSpeedChange(Math.max(10, parseInt(e.target.value) || 10))
+            onScrollSpeedChange(Math.max(10, parseInt(e.target.value) || 300))
           }
           className="w-16 px-2 py-1 bg-gray-700 rounded-lg text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />

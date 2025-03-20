@@ -20,18 +20,18 @@ function App() {
   });
   const [scrollStep, setScrollStep] = useState(() => {
     const saved = localStorage.getItem(SCROLL_STEP_STORAGE_KEY);
-    return saved ? parseInt(saved) : 50;
+    return saved ? parseInt(saved) : 200;
   });
   const [scrollSpeed, setScrollSpeed] = useState(() => {
     const saved = localStorage.getItem(SCROLL_SPEED_STORAGE_KEY);
-    return saved ? parseInt(saved) : 300;
+    return saved ? parseInt(saved) : 200;
   });
   const [fontSize, setFontSize] = useState(() => {
     const saved = localStorage.getItem(FONT_SIZE_STORAGE_KEY);
-    return saved ? parseInt(saved) : 32;
+    return saved ? parseInt(saved) : 90;
   });
   const [textColor, setTextColor] = useState(
-    () => localStorage.getItem(TEXT_COLOR_STORAGE_KEY) || "#FFFFFF"
+    () => localStorage.getItem(TEXT_COLOR_STORAGE_KEY) || "#e4d500"
   );
   const [horizontalPadding, setHorizontalPadding] = useState(() => {
     const saved = localStorage.getItem(PADDING_STORAGE_KEY);
