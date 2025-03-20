@@ -8,11 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "react-scripts start",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "lucide-react": "^0.344.0",
@@ -36,5 +33,5 @@
     "typescript-eslint": "^8.3.0",
     "vite": "^5.4.2"
   },
-  "homepage": "https://alonalush.github.io/prompter"
+  "homepage": "https://alonzo245.github.io/influencer-prompter"
 }

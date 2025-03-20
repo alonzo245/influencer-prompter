@@ -58,12 +58,12 @@ yarn install
 3. Start the development server:
 
 ```bash
-npm start
+npm run dev
 # or
-yarn start
+yarn dev
 ```
 
-The application will open in your default browser at `http://localhost:3000`.
+The application will open in your default browser at `http://localhost:5173`.
 
 ## Deployment
 
@@ -81,7 +81,7 @@ npm run deploy
 yarn deploy
 ```
 
-3. The application will be available at: `https://alonalush.github.io/prompter`
+3. The application will be available at: `https://alonzo245.github.io/influencer-prompter`
 
 ### Manual Build
 
@@ -93,7 +93,15 @@ npm run build
 yarn build
 ```
 
-The build output will be in the `build` directory.
+The build output will be in the `dist` directory.
+
+To preview the production build locally:
+
+```bash
+npm run preview
+# or
+yarn preview
+```
 
 ## Usage
 
