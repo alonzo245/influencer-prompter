@@ -65,6 +65,36 @@ yarn start
 
 The application will open in your default browser at `http://localhost:3000`.
 
+## Deployment
+
+### GitHub Pages
+
+This project is configured for deployment to GitHub Pages. To deploy:
+
+1. Ensure your repository is public and has GitHub Pages enabled in the repository settings.
+
+2. Build and deploy the application:
+
+```bash
+npm run deploy
+# or
+yarn deploy
+```
+
+3. The application will be available at: `https://alonalush.github.io/prompter`
+
+### Manual Build
+
+To create a production build without deploying:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+The build output will be in the `build` directory.
+
 ## Usage
 
 ### Controls
