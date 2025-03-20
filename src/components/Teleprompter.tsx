@@ -7,6 +7,7 @@ interface TeleprompterProps {
   textColor: string;
   horizontalPadding: number;
   scrollStep: number;
+  scrollSpeed: number; // milliseconds per step
 }
 
 type TextAlignment = "left" | "center" | "right";
@@ -14,6 +15,7 @@ type TextDirection = "rtl" | "ltr";
 
 const DIRECTION_STORAGE_KEY = "teleprompter_direction";
 const ALIGNMENT_STORAGE_KEY = "teleprompter_alignment";
+const SCROLL_SPEED_KEY = "teleprompter_scroll_speed";
 
 const Teleprompter: React.FC<TeleprompterProps> = ({
   script,
@@ -21,6 +23,7 @@ const Teleprompter: React.FC<TeleprompterProps> = ({
   textColor,
   horizontalPadding,
   scrollStep,
+  scrollSpeed,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -46,20 +49,13 @@ const Teleprompter: React.FC<TeleprompterProps> = ({
     if (!containerRef.current) return;
     const container = containerRef.current;
     const startPosition = container.scrollTop;
-    const duration = 300; // milliseconds
     const startTime = performance.now();
 
     const animateScroll = (currentTime: number) => {
       const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min(elapsed / scrollSpeed, 1);
 
-      // Easing function for smooth acceleration and deceleration
-      const easeInOutCubic =
-        progress < 0.5
-          ? 4 * progress * progress * progress
-          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-      container.scrollTop = startPosition + amount * easeInOutCubic;
+      container.scrollTop = startPosition + amount * progress;
 
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
@@ -76,7 +72,7 @@ const Teleprompter: React.FC<TeleprompterProps> = ({
       switch (e.key) {
         case "ArrowUp":
           e.preventDefault();
-          smoothScroll(-scrollStep);
+          smoothScroll(scrollStep);
           break;
         case "ArrowDown":
           e.preventDefault();
@@ -87,7 +83,7 @@ const Teleprompter: React.FC<TeleprompterProps> = ({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [scrollStep]);
+  }, [scrollStep, scrollSpeed]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -165,6 +161,7 @@ const Teleprompter: React.FC<TeleprompterProps> = ({
           <Maximize2 size={20} />
         </button>
       </div>
+
       <div
         ref={containerRef}
         id="teleprompter-content"
@@ -173,12 +170,17 @@ const Teleprompter: React.FC<TeleprompterProps> = ({
         } scrollbar-hide no-select`}
         style={{
           padding: `8px ${horizontalPadding}% 8px ${horizontalPadding}%`,
-          scrollBehavior: "smooth",
           msOverflowStyle: "none", // Hide scrollbar in IE and Edge
           scrollbarWidth: "none", // Hide scrollbar in Firefox
           direction: direction,
         }}
       >
+        {isFullscreen && (
+          <div
+            className="fixed top-1/2 left-0 right-0 h-[3px] bg-red-500 z-20 "
+            style={{ height: "4px" }}
+          ></div>
+        )}
         <div className="w-full mx-auto">
           {script.split("\n").map((paragraph, index) => (
             <p

@@ -4,6 +4,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 interface ControlsProps {
   scrollAmount: number;
   scrollStep: number;
+  scrollSpeed: number;
   fontSize: number;
   textColor: string;
   horizontalPadding: number;
@@ -14,6 +15,7 @@ interface ControlsProps {
   onFontSizeChange: (size: number) => void;
   onColorChange: (color: string) => void;
   onPaddingChange: (padding: number) => void;
+  onScrollSpeedChange: (speed: number) => void;
 }
 
 const MIN_PADDING = 8;
@@ -22,6 +24,7 @@ const MAX_PADDING = 40;
 const Controls: React.FC<ControlsProps> = ({
   scrollAmount,
   scrollStep,
+  scrollSpeed,
   fontSize,
   textColor,
   horizontalPadding,
@@ -32,6 +35,7 @@ const Controls: React.FC<ControlsProps> = ({
   onFontSizeChange,
   onColorChange,
   onPaddingChange,
+  onScrollSpeedChange,
 }) => {
   return (
     <div className="flex flex-wrap items-center gap-4">
@@ -85,6 +89,24 @@ const Controls: React.FC<ControlsProps> = ({
           title="Pixels to scroll on arrow key press"
         />
         <span className="text-xs text-gray-400">px</span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <label htmlFor="scrollSpeed" className="whitespace-nowrap text-sm">
+          Scroll Speed:
+        </label>
+        <input
+          type="number"
+          id="scrollSpeed"
+          min="10"
+          max="1000"
+          value={scrollSpeed}
+          onChange={(e) =>
+            onScrollSpeedChange(Math.max(10, parseInt(e.target.value) || 10))
+          }
+          className="w-16 px-2 py-1 bg-gray-700 rounded-lg text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <span className="text-xs text-gray-400">ms</span>
       </div>
 
       <div className="flex items-center gap-2">

@@ -2,66 +2,76 @@ import React, { useState, useCallback } from "react";
 import Teleprompter from "./components/Teleprompter";
 import Controls from "./components/Controls";
 
-const STORAGE_KEY = "teleprompter-script";
-const SCROLL_AMOUNT_KEY = "teleprompter-scroll-amount";
-const FONT_SIZE_KEY = "teleprompter-font-size";
-const TEXT_COLOR_KEY = "teleprompter-text-color";
-const PADDING_KEY = "teleprompter-padding";
-const SCROLL_STEP_KEY = "teleprompter-scroll-step";
+const SCRIPT_STORAGE_KEY = "teleprompter-script";
+const SCROLL_AMOUNT_STORAGE_KEY = "teleprompter-scroll-amount";
+const FONT_SIZE_STORAGE_KEY = "teleprompter-font-size";
+const TEXT_COLOR_STORAGE_KEY = "teleprompter-text-color";
+const PADDING_STORAGE_KEY = "teleprompter-padding";
+const SCROLL_STEP_STORAGE_KEY = "teleprompter-scroll-step";
+const SCROLL_SPEED_STORAGE_KEY = "teleprompter-scroll-speed";
 
 function App() {
-  const [script, setScript] = useState(() => {
-    return localStorage.getItem(STORAGE_KEY) || "";
-  });
+  const [script, setScript] = useState(
+    () => localStorage.getItem(SCRIPT_STORAGE_KEY) || ""
+  );
   const [scrollAmount, setScrollAmount] = useState(() => {
-    const saved = localStorage.getItem(SCROLL_AMOUNT_KEY);
+    const saved = localStorage.getItem(SCROLL_AMOUNT_STORAGE_KEY);
     return saved ? parseInt(saved) : 5;
   });
   const [scrollStep, setScrollStep] = useState(() => {
-    const saved = localStorage.getItem(SCROLL_STEP_KEY);
+    const saved = localStorage.getItem(SCROLL_STEP_STORAGE_KEY);
     return saved ? parseInt(saved) : 50;
   });
+  const [scrollSpeed, setScrollSpeed] = useState(() => {
+    const saved = localStorage.getItem(SCROLL_SPEED_STORAGE_KEY);
+    return saved ? parseInt(saved) : 300;
+  });
   const [fontSize, setFontSize] = useState(() => {
-    const saved = localStorage.getItem(FONT_SIZE_KEY);
+    const saved = localStorage.getItem(FONT_SIZE_STORAGE_KEY);
     return saved ? parseInt(saved) : 32;
   });
-  const [textColor, setTextColor] = useState(() => {
-    return localStorage.getItem(TEXT_COLOR_KEY) || "#FFFFFF";
-  });
+  const [textColor, setTextColor] = useState(
+    () => localStorage.getItem(TEXT_COLOR_STORAGE_KEY) || "#FFFFFF"
+  );
   const [horizontalPadding, setHorizontalPadding] = useState(() => {
-    const saved = localStorage.getItem(PADDING_KEY);
+    const saved = localStorage.getItem(PADDING_STORAGE_KEY);
     return saved ? parseInt(saved) : 8;
   });
 
   const handleScriptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
     setScript(newValue);
-    localStorage.setItem(STORAGE_KEY, newValue);
+    localStorage.setItem(SCRIPT_STORAGE_KEY, newValue);
   };
 
   const handleScrollAmountChange = (amount: number) => {
     setScrollAmount(amount);
-    localStorage.setItem(SCROLL_AMOUNT_KEY, amount.toString());
+    localStorage.setItem(SCROLL_AMOUNT_STORAGE_KEY, amount.toString());
   };
 
   const handleScrollStepChange = (step: number) => {
     setScrollStep(step);
-    localStorage.setItem(SCROLL_STEP_KEY, step.toString());
+    localStorage.setItem(SCROLL_STEP_STORAGE_KEY, step.toString());
   };
 
   const handleFontSizeChange = (size: number) => {
     setFontSize(size);
-    localStorage.setItem(FONT_SIZE_KEY, size.toString());
+    localStorage.setItem(FONT_SIZE_STORAGE_KEY, size.toString());
   };
 
   const handleColorChange = (color: string) => {
     setTextColor(color);
-    localStorage.setItem(TEXT_COLOR_KEY, color);
+    localStorage.setItem(TEXT_COLOR_STORAGE_KEY, color);
   };
 
   const handlePaddingChange = (padding: number) => {
     setHorizontalPadding(padding);
-    localStorage.setItem(PADDING_KEY, padding.toString());
+    localStorage.setItem(PADDING_STORAGE_KEY, padding.toString());
+  };
+
+  const handleScrollSpeedChange = (speed: number) => {
+    setScrollSpeed(speed);
+    localStorage.setItem(SCROLL_SPEED_STORAGE_KEY, speed.toString());
   };
 
   const smoothScroll = useCallback((amount: number) => {
@@ -115,6 +125,7 @@ function App() {
             <Controls
               scrollAmount={scrollAmount}
               scrollStep={scrollStep}
+              scrollSpeed={scrollSpeed}
               fontSize={fontSize}
               textColor={textColor}
               horizontalPadding={horizontalPadding}
@@ -125,6 +136,7 @@ function App() {
               onFontSizeChange={handleFontSizeChange}
               onColorChange={handleColorChange}
               onPaddingChange={handlePaddingChange}
+              onScrollSpeedChange={handleScrollSpeedChange}
             />
           </div>
 
@@ -135,9 +147,9 @@ function App() {
                 script={script}
                 fontSize={fontSize}
                 textColor={textColor}
-                isMirrored={false}
                 horizontalPadding={horizontalPadding}
                 scrollStep={scrollStep}
+                scrollSpeed={scrollSpeed}
               />
             </div>
           </div>
